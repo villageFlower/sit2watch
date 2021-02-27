@@ -19,6 +19,7 @@ export class Tab1Page {
     private firestore: AngularFirestore,
     public loading: LoadingController,
     private Http: HttpClient,
+    private networkInterface: NetworkInterface,
     public toastController: ToastController,
     private router : Router
     
@@ -118,7 +119,7 @@ export class Tab1Page {
               console.log('Confirm Cancel');
             }
           }, {
-            text: 'Enter',
+            text: 'Create',
             handler: (data) => {
               console.log(data);
               localStorage.setItem("going_to",data.room_key)
@@ -148,22 +149,19 @@ export class Tab1Page {
 
     createRoom(name){
       this.showLoading("Creating....")
-      let key = this.makeKey(9)
-      this.firestore
-      .collection('room')
-      .doc(key.toString())
-      .set({
+      let key = this.makeKey(6)
+      this.firestore.collection('room')
+      .add({
         name: name,
         key: key,
-        selected_movie:"https://res.cloudinary.com/dl0qwntge/video/upload/v1614446859/movie/blackWidow_nrzffk.mp4",
+        selected_movie:"",
         creator: "test@gmail.com",
-        viewer:"",
-        start:false,
-        start_time:0
+        viewer:""
       })
       .then(res => {
-        localStorage.setItem("my_room_id",key.toString())
-        localStorage.setItem("going_to",key.toString())
+        console.log(res.id)
+        localStorage.setItem("my_room_id",res.id)
+        localStorage.setItem("going_to",res.id)
         this.dismissLoading()
         this.router.navigate(['/tabs/tab3'])
       })

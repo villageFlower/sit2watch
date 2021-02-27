@@ -27,12 +27,12 @@
 
 :root {
     --tint: #50c8ff;
-  }
+}
+
 ion-content {
-  .background{
-    background-image: url('./assets/images/bg-01.jpg');
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-  }
+  --background: none;
+  background-image: url('./assets/images/bg-01.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

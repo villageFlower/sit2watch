@@ -20,7 +20,7 @@
         <!-- <ion-button size='small' fill='clear' [ngClass]='myFav(id) ? "liked" : "like"' (click)='favouriteProduct(id)' *ngIf="currentUser.role == 1 || currentUser.role == 3">
           <ion-icon slot='icon-only' name="heart"></ion-icon>
         </ion-button> -->
-        <ion-card>
+        <ion-card (click)="toRoom()"> 
         <!-- <ion-card [routerLink]='["/product-details", product.id]'> -->
           <img src='{{movie.movie_image}}' alt='' height="260px">
           <ion-card-header>

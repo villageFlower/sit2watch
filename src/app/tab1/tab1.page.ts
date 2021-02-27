@@ -155,7 +155,7 @@ export class Tab1Page {
         name: name,
         key: key,
         selected_movie:"",
-        creator: "test@gmail.com",
+        creator: localStorage.getItem("email"),
         viewer:""
       })
       .then(res => {
@@ -163,13 +163,13 @@ export class Tab1Page {
         localStorage.setItem("my_room_id",res.id)
         localStorage.setItem("going_to",res.id)
         this.dismissLoading()
-        this.router.navigate(['/tabs/tab3'])
+        this.router.navigate(['/tabs/movies'])
       })
       .catch(error => console.log(error));
     }
 
     enterRoom(key){
-      this.firestore.collection("room").doc(key).update({viewer:"test2"})
+      this.firestore.collection("room").doc(key).update({viewer:localStorage.getItem("email")})
     }
 
 }

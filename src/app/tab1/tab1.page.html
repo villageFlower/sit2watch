@@ -1,9 +1,4 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -13,5 +8,11 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-button color="light" class="addBtn" (click)="presentAlertPrompt()">
+    <ion-icon style="zoom: 400%;" name="add"></ion-icon>
+
+  </ion-button>
+  <ion-button color="light" class="joinBtn">
+    <ion-icon style="zoom: 400%;" name="enter"></ion-icon>
+  </ion-button>
 </ion-content>

@@ -122,6 +122,10 @@ export class Tab1Page {
             text: 'Create',
             handler: (data) => {
               console.log(data);
+              localStorage.setItem("going_to",data.room_key)
+              this.enterRoom(data.room_key)
+        this.dismissLoading()
+        this.router.navigate(['/tabs/tab3'])
               
             }
           }
@@ -162,6 +166,10 @@ export class Tab1Page {
         this.router.navigate(['/tabs/tab3'])
       })
       .catch(error => console.log(error));
+    }
+
+    enterRoom(key){
+      this.firestore.collection("room").doc(key).update({viewer:"test2"})
     }
 
 }

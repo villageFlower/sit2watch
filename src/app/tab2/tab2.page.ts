@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore,} from '@angular/fire/firestore';
 import { AlertController } from '@ionic/angular';
-import { FormGroup, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder} from '@angular/forms';
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 interface MovieData {
   Title: string;
@@ -16,15 +19,20 @@ interface MovieData {
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-
   collectionName = 'movie';
   movieData: MovieData;
   movieForm: FormGroup;
+  ref: AngularFireStorageReference;
+  task: AngularFireUploadTask;
+  uploadProgress: Observable<number>;
+  downloadURL: Observable<string>;
+  uploadState: Observable<string>;
 
   constructor(
     private firestore: AngularFirestore,
     public alertController: AlertController,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    private afStorage: AngularFireStorage
   ) {
     this.movieData = {} as MovieData;
   }
@@ -51,5 +59,14 @@ export class Tab2Page {
         console.log(error);
       });
   }
+
+  upload(event) {
+    const id = Math.random().toString(36).substring(2);
+    this.ref = this.afStorage.ref(id);
+    this.task = this.ref.put(event.target.files[0]);
+    this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
+    this.uploadProgress = this.task.percentageChanges();
+  }
+  
 
 }

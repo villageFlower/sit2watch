@@ -1,0 +1,7 @@
+{
+  "name": "sit2Watch",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

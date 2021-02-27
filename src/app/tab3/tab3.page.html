@@ -2,14 +2,15 @@
   <ion-toolbar>
 
     <ion-title style="text-align: center;">
-      {{name}}
+      {{room.name}}
     </ion-title>
 
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button (click)="play()">
+  <div id="player"></div>
+  <ion-button (click)="setTime()">
     <ion-icon name="play-circle-outline"></ion-icon>
   </ion-button>
 

@@ -20,16 +20,21 @@ export class Tab3Page {
   movie = null;
   myTime= 0;
   status= null;
+  
+  private loader: HTMLIonLoadingElement;
+  private loaderLoading = false;
 
   constructor(
     private storage : AngularFireStorage,
     private firestore: AngularFirestore,
     public loading: LoadingController,
     private Http: HttpClient,
+    
   ) {
 
   }
   ngOnInit(){
+    this.showLoading("loading")
     this.firestore
     .collection("room")
     .doc(this.room_id)
@@ -68,6 +73,27 @@ export class Tab3Page {
     
   }
 
+  public showLoading(message: string) {
+    this.loaderLoading = true;
+    this.loading.create({
+        message,
+        showBackdrop: true
+    }).then(load => {
+        this.loader = load;
+        load.present().then(() => { this.loaderLoading = false; });
+    });
+}
+
+public dismissLoading() {
+    const interval = setInterval(() => {
+        if (this.loader || !this.loaderLoading) {
+            this.loader.dismiss().then(() => { this.loader = null; clearInterval(interval)});
+        } else if (!this.loader && !this.loaderLoading) {
+            clearInterval(interval);
+        }
+    }, 500);
+}
+
 
   async update(field) {
     return await this.firestore.collection("room").doc(this.room_id).update(field)
@@ -84,6 +110,7 @@ export class Tab3Page {
     document.addEventListener('jeepCapVideoPlayerEnded', (e: CustomEvent) => { console.log('Event jeepCapVideoPlayerEnded ', e.detail) }, false);
     
     const res: any = await this.videoPlayer.initPlayer({mode: "embedded", url: url, playerId: "player", width:1200, height:600 });
+    this.dismissLoading()
   }
 
   async setTime(){

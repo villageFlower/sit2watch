@@ -13,6 +13,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth'
 import { environment } from '../environments/environment'
 import { HttpClientModule } from '@angular/common/http';
 import { NetworkInterface } from '@ionic-native/network-interface/ngx';
+import { CloudinaryModule, CloudinaryConfiguration } from '@cloudinary/angular-5.x';
+import { Cloudinary } from 'cloudinary-core';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +26,10 @@ import { NetworkInterface } from '@ionic-native/network-interface/ngx';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    HttpClientModule],
+    HttpClientModule,
+    CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'domt8cdgn'} as CloudinaryConfiguration),
+  ],
+    
   providers: [
     NetworkInterface,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

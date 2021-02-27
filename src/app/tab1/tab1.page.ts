@@ -5,7 +5,8 @@ import { LoadingController } from '@ionic/angular';
 import * as firebase from 'firebase';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NetworkInterface } from '@ionic-native/network-interface/ngx';
-
+import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab1',
@@ -19,6 +20,9 @@ export class Tab1Page {
     public loading: LoadingController,
     private Http: HttpClient,
     private networkInterface: NetworkInterface,
+    public toastController: ToastController,
+    private router : Router
+    
     ) {
       
     }
@@ -27,6 +31,17 @@ export class Tab1Page {
 
     private loader: HTMLIonLoadingElement;
     private loaderLoading = false;
+
+
+
+    async presentToast() {
+      const toast = await this.toastController.create({
+        message: 'Room key copied to clipboard',
+        duration: 2000
+      });
+      toast.present();
+    }
+
 
     public showLoading(message: string) {
         this.loaderLoading = true;
@@ -140,12 +155,13 @@ export class Tab1Page {
         viewer:""
       })
       .then(res => {
-        console.log(res)
+        console.log(res.id)
+        localStorage.setItem("my_room_id",res.id)
+        localStorage.setItem("going_to",res.id)
         this.dismissLoading()
+        this.router.navigate(['/tabs/tab3'])
       })
       .catch(error => console.log(error));
     }
-
-    showKey
 
 }

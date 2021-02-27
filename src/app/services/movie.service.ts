@@ -12,7 +12,7 @@ export class MovieService {
     return this.firestore.collection('movie_list').valueChanges({idField: 'id'});
   }
 
-  getUser(email) {
-    return this.firestore.collection('user').doc(email).valueChanges();
+  addUser(email) {
+    return this.firestore.collection('user').doc(email).set({ });
   }
 }

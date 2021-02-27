@@ -10,11 +10,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class LoginPage implements OnInit {
 
-  loginForm: FormGroup;
+  signupForm: FormGroup;
   user: any = [];
 
   constructor(private movieService: MovieService, private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder,) {
-    this.loginForm = formBuilder.group({
+    this.signupForm = formBuilder.group({
       'email': '',
     });
    }
@@ -22,8 +22,8 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  login(){
-    this.movieService.getUser(this.loginForm.value.email).subscribe((data) => { this.user = data; });
+  signup(){
+    this.movieService.addUser(this.signupForm.value.email);
     console.log("login successfully")
   }
 

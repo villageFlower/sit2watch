@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { LoadingController } from '@ionic/angular';
 import * as firebase from 'firebase';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NetworkInterface } from '@ionic-native/network-interface/ngx';
 
 
 @Component({
@@ -12,13 +13,42 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-
   constructor(
     public alertController: AlertController,
     private firestore: AngularFirestore,
-    public loadingController: LoadingController,
+    public loading: LoadingController,
     private Http: HttpClient,
-    ) {}
+    private networkInterface: NetworkInterface,
+    ) {
+      
+    }
+    
+
+
+    private loader: HTMLIonLoadingElement;
+    private loaderLoading = false;
+
+    public showLoading(message: string) {
+        this.loaderLoading = true;
+        this.loading.create({
+            message,
+            showBackdrop: true
+        }).then(load => {
+            this.loader = load;
+            load.present().then(() => { this.loaderLoading = false; });
+        });
+    }
+
+    public dismissLoading() {
+        const interval = setInterval(() => {
+            if (this.loader || !this.loaderLoading) {
+                this.loader.dismiss().then(() => { this.loader = null; clearInterval(interval)});
+            } else if (!this.loader && !this.loaderLoading) {
+                clearInterval(interval);
+            }
+        }, 500);
+    }
+
 
     async showCreate() {
       const alert = await this.alertController.create({
@@ -44,6 +74,7 @@ export class Tab1Page {
             text: 'Create',
             handler: (data) => {
               console.log(data);
+              this.createRoom(data.room_name)
             }
           }
         ]
@@ -55,12 +86,12 @@ export class Tab1Page {
     async showEnter() {
       const alert = await this.alertController.create({
         cssClass: 'my-custom-class',
-        header: 'Create Room',
+        header: 'Join',
         inputs: [
           {
-            name: 'room_name',
+            name: 'room_key',
             type: 'text',
-            placeholder: 'Name of your room'
+            placeholder: 'Room Key'
           },
 
         ],
@@ -76,6 +107,7 @@ export class Tab1Page {
             text: 'Create',
             handler: (data) => {
               console.log(data);
+              
             }
           }
         ]
@@ -93,15 +125,27 @@ export class Tab1Page {
       }
       return result;
    }
+
    
 
     createRoom(name){
-      let key = this.makeKey
-      this.firestore.collection('room').add({
+      this.showLoading("Creating....")
+      let key = this.makeKey(6)
+      this.firestore.collection('room')
+      .add({
         name: name,
         key: key,
-        selected_movie:""
+        selected_movie:"",
+        creator: "test@gmail.com",
+        viewer:""
       })
+      .then(res => {
+        console.log(res)
+        this.dismissLoading()
+      })
+      .catch(error => console.log(error));
     }
+
+    showKey
 
 }

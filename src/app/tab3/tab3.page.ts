@@ -2,10 +2,13 @@ import { Component } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 import * as PluginsLibrary from '@jeepq/capacitor';
 import { AngularFireStorage } from '@angular/fire/storage';
+<<<<<<< HEAD
+=======
 import { AngularFirestore } from '@angular/fire/firestore';
 import { LoadingController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { take } from 'rxjs/operators';
+>>>>>>> 0c9426d8e54d3a199e72f92d09dda95314749f8c
 const { CapacitorVideoPlayer, Device } = Plugins;
 
 @Component({
@@ -15,6 +18,13 @@ const { CapacitorVideoPlayer, Device } = Plugins;
 })
 export class Tab3Page {
   videoPlayer: any;
+<<<<<<< HEAD
+
+  constructor(
+    private storage : AngularFireStorage,
+  ) {}
+
+=======
   room=null;
   room_id = localStorage.getItem("going_to");
   movie = null;
@@ -41,6 +51,7 @@ export class Tab3Page {
       this.play(this.room.selected_movie)
     })
   }
+>>>>>>> 0c9426d8e54d3a199e72f92d09dda95314749f8c
 
   async ngAfterViewInit() {
     const info = await Device.getInfo();
@@ -49,6 +60,25 @@ export class Tab3Page {
     } else {
       this.videoPlayer = PluginsLibrary.CapacitorVideoPlayer
     }
+<<<<<<< HEAD
+  }
+  async play() {
+    
+    this.videoPlayer = PluginsLibrary.CapacitorVideoPlayer
+    
+    document.addEventListener('jeepCapVideoPlayerPlay', (e: CustomEvent) => { console.log('Event jeepCapVideoPlayerPlay ', e.detail) }, false);
+    document.addEventListener('jeepCapVideoPlayerPause', (e: CustomEvent) => { console.log('Event jeepCapVideoPlayerPause ', e.detail) }, false);
+    document.addEventListener('jeepCapVideoPlayerEnded', (e: CustomEvent) => { console.log('Event jeepCapVideoPlayerEnded ', e.detail) }, false);
+    
+    const res: any = await this.videoPlayer.initPlayer({mode: "embedded", url: "https://res.cloudinary.com/dl0qwntge/video/upload/v1614446859/movie/blackWidow_nrzffk.mp4", playerId: "fullscreen" });
+    console.log("asdasv")
+  }
+
+  async play1() {
+    this.storage.ref("public/marvel/blackWidow.mp4").getDownloadURL().subscribe(data => {
+      console.log(data)
+    })
+=======
     this.firestore
     .collection("room")
     .doc(this.room_id)
@@ -102,5 +132,6 @@ export class Tab3Page {
 
   async play1() {
     console.log(this.room)
+>>>>>>> 0c9426d8e54d3a199e72f92d09dda95314749f8c
   }
 }

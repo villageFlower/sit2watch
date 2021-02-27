@@ -1,17 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { AngularFirestore,} from '@angular/fire/firestore';
 import { AlertController } from '@ionic/angular';
 import { FormGroup, Validators, FormBuilder} from '@angular/forms';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { Cloudinary } from '@cloudinary/angular-5.x';
+import { HttpClient,HttpHeaders, HttpClientJsonpModule } from '@angular/common/http';
+
 
 interface MovieData {
   Title: string;
-  Path: string;
   Poster: string;
-  UserEmail: string
 }
+
 
 @Component({
   selector: 'app-tab2',
@@ -32,19 +34,21 @@ export class Tab2Page {
     private firestore: AngularFirestore,
     public alertController: AlertController,
     public fb: FormBuilder,
-    private afStorage: AngularFireStorage
+    private afStorage: AngularFireStorage,
   ) {
     this.movieData = {} as MovieData;
   }
 
+  public resultPost:any="";
+
   ngOnInit() {
     this.movieForm = this.fb.group({
       Title: ['', [Validators.required]],
-      Poster: ['', [Validators.required]],
-      Path: ['', [Validators.required]],
-      UserEmail: ['', [Validators.required]]
+      Poster: ['', [Validators.required]]
     })
+    
   }
+  
 
   create_movie(record) {
     return this.firestore.collection(this.collectionName).add(record)
@@ -61,12 +65,14 @@ export class Tab2Page {
   }
 
   upload(event) {
+    var link = '';
     const id = Math.random().toString(36).substring(2);
     this.ref = this.afStorage.ref(id);
     this.task = this.ref.put(event.target.files[0]);
-    this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
-    this.uploadProgress = this.task.percentageChanges();
   }
-  
+
+  getPosterUrl(id) {
+    return this.afStorage.ref(id).getDownloadURL()
+  }
 
 }

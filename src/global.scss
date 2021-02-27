@@ -28,3 +28,11 @@
 :root {
     --tint: #50c8ff;
   }
+ion-content {
+  .background{
+    background-image: url('./assets/images/bg-01.jpg');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+  }
+}

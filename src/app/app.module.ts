@@ -12,6 +12,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage'
 import { AngularFireAuthModule } from '@angular/fire/auth'
 import { environment } from '../environments/environment'
 import { HttpClientModule } from '@angular/common/http';
+import { NetworkInterface } from '@ionic-native/network-interface/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,10 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireAuthModule,
     AngularFireStorageModule,
     HttpClientModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    NetworkInterface,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

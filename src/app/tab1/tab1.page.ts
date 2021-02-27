@@ -122,6 +122,7 @@ export class Tab1Page {
             handler: (data) => {
               console.log(data);
               localStorage.setItem("going_to",data.room_key)
+              this.enterRoom(data.room_key)
         this.dismissLoading()
         this.router.navigate(['/tabs/tab3'])
               
@@ -170,7 +171,7 @@ export class Tab1Page {
     }
 
     enterRoom(key){
-      this.firestore.collection("room").doc(key).update({viewer:"test2@gmail.com"})
+      this.firestore.collection("room").doc(key).update({viewer:"test2"})
     }
 
 }

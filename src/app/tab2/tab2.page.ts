@@ -1,4 +1,14 @@
 import { Component } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AlertController } from '@ionic/angular';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+
+interface MovieData {
+  Title: string;
+  Path: string;
+  Poster: string;
+  UserEmail: string
+}
 
 @Component({
   selector: 'app-tab2',
@@ -7,6 +17,19 @@ import { Component } from '@angular/core';
 })
 export class Tab2Page {
 
-  constructor() {}
+  collectionName = 'movie';
+  studentList = [];
+  studentData: MovieData;
+  studentForm: FormGroup;
+
+  constructor(
+    private firestore: AngularFirestore,
+    public alertController: AlertController,
+    public fb: FormBuilder
+  ) {}
+
+  create_movie(record) {
+    return this.firestore.collection(this.collectionName).add(record)
+  }
 
 }

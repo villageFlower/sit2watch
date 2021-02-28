@@ -30,7 +30,9 @@ export class Tab2Page {
   uploadProgress: Observable<number>;
   downloadURL: Observable<string>;
   uploadState: Observable<string>;
-  baseimg= null
+  baseimg= null;
+  image;
+  prediction
 
   constructor(
     private firestore: AngularFirestore,
@@ -83,29 +85,38 @@ export class Tab2Page {
     //this.ref = this.afStorage.ref(id);
     //this.task = this.ref.put(event.target.files[0]);
     const model = await tf.loadLayersModel('../assets/model.json');
+
     var file = event.target.files[0]
     this.getBase64(file).then(
       async data => {
+        console.log(data)
         this.baseimg = data
-        let b = atob(this.baseimg)
-          let byteNumbers = new Array(b.length);
-        for (let i = 0; i < b.length; i++) {
-          byteNumbers[i] = b.charCodeAt(i);
-        }
-        let tensor = tf.tensor(byteNumbers)
-        const output = model.predict(tensor) as any;
-        const pred = await tf.tidy(() => {
-          let prediction = Array.from(output.dataSync());
-          console.log(prediction)
+        this.image = await this.load(this.baseimg)
+        let tensor = await tf.browser.fromPixels(this.image)
+        mobilenet.load().then(model => {
+          // Classify the image.
+          model.classify(tensor).then(predictions => {
+            this.prediction = predictions
+          });
         });
       });
-    
-    
 
-
-    
 
   }
+
+
+  load(url){
+    return new Promise((resolve, reject) => {
+      const im = new Image()
+          im.crossOrigin = 'anonymous'
+          im.src =url
+          im.onload = () => {
+            resolve(im)
+          }
+     })
+  }
+  
+
 
   getPosterUrl(id) {
     return this.afStorage.ref(id).getDownloadURL()

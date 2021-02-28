@@ -15,6 +15,7 @@ export class MoviesPage implements OnInit {
     private movieService: MovieService,
     private router : Router
     ) {
+
     this.movieService.getAllMovies().subscribe((data) => {
       this.movies = data;
     })
@@ -22,11 +23,14 @@ export class MoviesPage implements OnInit {
 
 
   ngOnInit() {
+    document.getElementById('1').innerHTML = localStorage.getItem('my_room_id')
     }
 
     toRoom(){
       this.router.navigate(['/tabs/tab3'])
     }
+
+    
 
   
 

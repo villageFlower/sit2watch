@@ -26,6 +26,7 @@ export class LoginPage implements OnInit {
     this.movieService.addUser(this.signupForm.value.email);
     localStorage.setItem("email",this.signupForm.value.email)
     console.log("login successfully")
+    this.router.navigate(['/tabs/tab1'])
   }
 
 }

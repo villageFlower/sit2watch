@@ -119,7 +119,7 @@ export class Tab1Page {
               console.log('Confirm Cancel');
             }
           }, {
-            text: 'Create',
+            text: 'Enter',
             handler: (data) => {
               console.log(data);
               localStorage.setItem("going_to",data.room_key)
@@ -154,7 +154,7 @@ export class Tab1Page {
       .add({
         name: name,
         key: key,
-        selected_movie:"",
+        selected_movie:"https://res.cloudinary.com/dl0qwntge/video/upload/v1614446859/movie/blackWidow_nrzffk.mp4",
         creator: localStorage.getItem("email"),
         viewer:""
       })
@@ -171,5 +171,4 @@ export class Tab1Page {
     enterRoom(key){
       this.firestore.collection("room").doc(key).update({viewer:localStorage.getItem("email")})
     }
-
 }

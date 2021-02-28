@@ -15,22 +15,13 @@
       </ion-item>
       <ion-item>
         <ion-label position="stacked">Movie Poster</ion-label>
-<<<<<<< HEAD
-        <ion-input type="file" name="inputFile" formControlName="Poster" (change)="upload($event)"></ion-input>
+        <ion-input type="file" id="poster" formControlName="Poster" (change)="upload($event)"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked">Video File</ion-label>
-        <ion-input type="file" formControlName="Path"></ion-input>
-=======
-        <ion-input type="file" id="poster" formControlName="Poster" (change)="upload($event)"></ion-input>
->>>>>>> 0c9426d8e54d3a199e72f92d09dda95314749f8c
+        <img [src]="imageSrc" #img *ngIf="imageSrc"/>
       </ion-item>
       <ion-button expand="block" shape="round" (click)="addMovie()" method="POST">Upload</ion-button>
       </form>
     </ion-card-content>
   </ion-card>
-<<<<<<< HEAD
 </ion-content>
-=======
-</ion-content>
->>>>>>> 0c9426d8e54d3a199e72f92d09dda95314749f8c
